@@ -1,5 +1,6 @@
 
 from dataclasses import dataclass
+from typing import Optional
 from .assunto import Assunto
 
 
@@ -7,4 +8,4 @@ from .assunto import Assunto
 class Setor:
     id: int
     nome: str
-    ativo: str
+    ativo: Optional[str] = None

@@ -1,5 +1,6 @@
 #src\domain\entities\tarefa.py
 from dataclasses import dataclass
+from typing import Optional
 
 from src.tarefa_setor_updater.domain.entities.setor import Setor
 from .assunto import Assunto
@@ -9,10 +10,10 @@ from .assunto import Assunto
 class Tarefa:
     id: int
     descricao: str
-    pode_finalizar_processo: bool
     setor: Setor
     assunto: Assunto
-    ativo: bool
+    pode_finalizar_processo: Optional[bool] = None
+    ativo: Optional[bool] = None
 
     def __post_init__(self): # noqa
         self._valida_campos()
@@ -22,11 +23,6 @@ class Tarefa:
             raise ValueError("O campo 'id' deve ser um número inteiro.")
         if not isinstance(self.descricao, str):
             raise ValueError("O campo 'descricao' deve ser uma string.")
-        if not isinstance(self.pode_finalizar_processo, bool):
-            raise ValueError("O campo 'pode_finalizar_processo' deve ser um booleano.")
-        if not isinstance(self.ativo, bool):
-            raise ValueError("O campo 'ativo' deve ser um booleano.")
-
         if not self.descricao.strip():
             raise ValueError("O campo 'descricao' não pode ser vazio.")
 
