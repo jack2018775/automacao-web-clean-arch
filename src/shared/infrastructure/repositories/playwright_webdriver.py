@@ -19,7 +19,8 @@ class PlaywrightWebAutomation(WebAutomation):
     def goto_page(self, url: str) -> None:
         self.page.goto(url)
 
-    def click(self, selector: str, timeout: int = 2) -> None:
+    def click(self, selector: str, timeout: int = 2, sleep:float = 0.5) -> None:
+        time.sleep(sleep)
         self.page.wait_for_selector(selector, timeout=timeout*1000)
         self.page.click(selector)
 
@@ -27,12 +28,14 @@ class PlaywrightWebAutomation(WebAutomation):
         self.page.wait_for_selector(selector, timeout=timeout*1000)
         self.page.dblclick(selector)
 
-    def send_keys(self, selector: str, text: str, timeout: int = 2, press_enter: bool = False) -> None:
+    def send_keys(self, selector: str, text: str, timeout: int = 2, press_enter: bool = False, press_tab: bool = False) -> None:
+        time.sleep(timeout)
         self.page.wait_for_selector(selector, timeout=timeout*1000)
         self.page.fill(selector, text)
-        time.sleep(timeout)
         if press_enter:
             self.page.press(selector, "Enter")
+        if press_tab:
+            self.page.press(selector, 'Tab')
 
     def wait_for_element(self, selector: str, timeout: int = 2) -> None:
         

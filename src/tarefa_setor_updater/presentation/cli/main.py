@@ -1,7 +1,9 @@
 # src/tarefa_setor_updater/presentation/cli/main.py
 from sys import path
+
 path.append('A:\\dev\\python\\automacao-web-clean-arch')
 
+from src.tarefa_setor_updater.domain.usecases.filtrar_processo import FiltrarProcessoUseCase
 from src.tarefa_setor_updater.domain.usecases.abrir_listagem_processo import AbrirListagemProcessoUseCase
 from src.tarefa_setor_updater.domain.entities.user import User
 from src.shared.domain.usecases.login_use_case import LoginUseCase
@@ -24,6 +26,12 @@ def main():
             getenv('EMAIL_3'),
             getenv('PASSWORD_3'),
         )
+        repo = TarefaRepositorySheets(
+            creds_json_path='src/shared/infrastructure/creds/service-account.json',
+            spreadsheet_name='os_aberta',
+            spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1rAXHK7e0nIZkdXNMNMEpF7RKcV_9-qg0nn0W35WgQso/edit?usp=sharing'
+        )
+
         
         # 🔐 Etapa 1: Login
         login = LoginUseCase(web_automation, getenv('LOGIN_URL'), user)
@@ -34,13 +42,7 @@ def main():
         abrir_listagem_processo()
         
         # 3. Atualizar o setor das tarefas dos processos
-        repo = TarefaRepositorySheets(
-            creds_json_path='src/shared/infrastructure/creds/service-account.json',
-            spreadsheet_name='os_aberta',
-            spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1rAXHK7e0nIZkdXNMNMEpF7RKcV_9-qg0nn0W35WgQso/edit?usp=sharing'
-        )
-
-        atualizar_setor_da_tarefa = AtualizarTarefaSetorUseCase(repo)
+        atualizar_setor_da_tarefa = AtualizarTarefaSetorUseCase(repo, web_automation)
         atualizar_setor_da_tarefa(Setor(id=200, nome='CAC'))
 
 if __name__ == '__main__':

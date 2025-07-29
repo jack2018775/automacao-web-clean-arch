@@ -33,7 +33,7 @@ class LoginUseCase:
             
             attempts += 1
             
-        if self.web_automation.element_exists('button[class="styles-module__button2FACancel___ahPHx"]', sleep= 7):
+        if self.web_automation.element_exists('button[class="styles-module__button2FACancel___ahPHx"]', sleep = 8):
             self.web_automation.click('button[class="styles-module__button2FACancel___ahPHx"]')
         
         
