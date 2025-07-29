@@ -2,6 +2,7 @@
 from sys import path
 path.append('A:\\dev\\python\\automacao-web-clean-arch')
 
+from src.tarefa_setor_updater.domain.usecases.abrir_listagem_processo import AbrirListagemProcessoUseCase
 from src.tarefa_setor_updater.domain.entities.user import User
 from src.shared.domain.usecases.login_use_case import LoginUseCase
 from src.shared.infrastructure.repositories.playwright_webdriver import PlaywrightWebAutomation
@@ -17,17 +18,20 @@ from os import getenv
 
 
 def main():
-    # 1. Criar automação e usuário
     with sync_playwright() as pw:
-        web= PlaywrightWebAutomation.create(pw, headless=False)
+        web_automation= PlaywrightWebAutomation.create(pw, headless=False)
         user = User(
             getenv('EMAIL_3'),
             getenv('PASSWORD_3'),
         )
         
-        # 2. Fazer login
-        login = LoginUseCase(web,getenv('LOGIN_URL'), user)
+        # 🔐 Etapa 1: Login
+        login = LoginUseCase(web_automation, getenv('LOGIN_URL'), user)
         login()
+        
+        # 📂 Etapa 2: Acessar Processos
+        abrir_listagem_processo = AbrirListagemProcessoUseCase(web_automation)
+        abrir_listagem_processo()
         
         # 3. Atualizar o setor das tarefas dos processos
         repo = TarefaRepositorySheets(
