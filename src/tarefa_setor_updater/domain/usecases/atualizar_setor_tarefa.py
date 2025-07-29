@@ -7,7 +7,7 @@ class AtualizarTarefaSetorUseCase:
     def __init__(self, tarefa_repo: TarefaRepository):
         self.tarefa_repo = tarefa_repo
     
-    def execute(self, novo_setor: Setor):
+    def __call__(self, novo_setor: Setor):
         processos = self.tarefa_repo.get_all()
         
         for processo in processos:
