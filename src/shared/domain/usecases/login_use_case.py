@@ -32,6 +32,9 @@ class LoginUseCase:
                 
             
             attempts += 1
+            
+        if self.web_automation.element_exists('button[class="styles-module__button2FACancel___ahPHx"]', sleep= 7):
+            self.web_automation.click('button[class="styles-module__button2FACancel___ahPHx"]')
         
         
         # return self.web_automation.get_curent_page()
