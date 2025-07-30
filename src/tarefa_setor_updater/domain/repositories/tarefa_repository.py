@@ -9,6 +9,6 @@ class TarefaRepository(ABC):
     def get_all(self) -> List[Tarefa]:
         pass
 
-    @abstractmethod
-    def atualizar_setor(self, tarefa_id: int, novo_setor_id: int) -> None:
-        pass
+    # @abstractmethod
+    # def atualizar_setor(self, tarefa_id: int, novo_setor_id: int) -> None:
+    #     pass

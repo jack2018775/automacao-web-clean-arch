@@ -19,14 +19,14 @@ class PlaywrightWebAutomation(WebAutomation):
     def goto_page(self, url: str) -> None:
         self.page.goto(url)
 
-    def click(self, selector: str, timeout: int = 2, sleep:float = 0.5) -> None:
+    def click(self, selector: str, timeout: int = 3, sleep:float = 0.5) -> None:
         time.sleep(sleep)
         self.page.wait_for_selector(selector, timeout=timeout*1000)
         self.page.click(selector)
 
     def duble_click(self, selector: str, timeout: int = 2) -> None:
         self.page.wait_for_selector(selector, timeout=timeout*1000)
-        self.page.dblclick(selector)
+        self.page.dblclick(selector, delay=0.5)
 
     def send_keys(self, selector: str, text: str, timeout: int = 2, press_enter: bool = False, press_tab: bool = False) -> None:
         time.sleep(timeout)

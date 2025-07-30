@@ -6,6 +6,8 @@ from src.tarefa_setor_updater.domain.repositories.tarefa_repository import Taref
 from src.tarefa_setor_updater.domain.usecases.filtrar_processo import FiltrarProcessoUseCase
 
 import re
+import time
+
 
 
 class AtualizarTarefaSetorUseCase:
@@ -38,17 +40,20 @@ class AtualizarTarefaSetorUseCase:
                 # self.web_automation.duble_click(f'tr[id="row{processo.tarefa.id}"]')
                 self._procura_tarefa_pagination(processo.tarefa)
                 
-                # Digitar o ID do novo setor
-                self.web_automation.send_keys('input[id="id_setor"]', str(novo_setor.id), press_tab=True)
-                # self.web_automation.click(f'div[id="id_setor_label-autocomplete-list"] div[data-id="{novo_setor.id}"]')
+                try:
+                    # Digitar o ID do novo setor
+                    self.web_automation.send_keys('input[id="id_setor"]', str(novo_setor.id), press_tab=True, timeout=3)
+                    # self.web_automation.click(f'div[id="id_setor_label-autocomplete-list"] div[data-id="{novo_setor.id}"]')
+                except Exception as e:
+                    input("Deu erro deseja continuar ?")
                 
                 # Salvar a alteração
-                # self.web_automation.click('form[name="wfl_tarefa"] button[title="Alt+S"]', sleep=2)
+                self.web_automation.click('form[name="wfl_tarefa"] button[title="Alt+S"]', sleep=2)
                 
                 # Fechar a janela de tarefa e do processo
                 self.web_automation.click('a[id="wfl_tarefa_btn_close"]')
+                time.sleep(1)
                 self.web_automation.click(f'a[id="wfl_processo_btn_close"]')
-                
                 
             else:
                 continue
@@ -57,6 +62,7 @@ class AtualizarTarefaSetorUseCase:
         tarefa_row_selector = f'tr[id="row{tarefa.id}"]'
         
         while True:
+            time.sleep(1)
             if self.web_automation.element_exists(tarefa_row_selector):
                 self.web_automation.duble_click(tarefa_row_selector)
                 return True

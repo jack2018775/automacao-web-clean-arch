@@ -83,8 +83,19 @@ class TarefaRepositorySheets(TarefaRepository):
             
         return processos
 
-    def atualizar_setor(self, tarefa_id: int, novo_setor_id: int) -> None:
-        pass
+    def atualizar_coluna_por_tarefa_id(self, tarefa_id: int, nome_coluna: str, valor: str) -> None:
+        """Atualiza o valor de uma celular especifica na linha da tabela informada pelo ID
+
+        Args:
+            tarefa_id (int): ID da tarefa que foi atualizado no sistema
+            nome_coluna (str): Qual a coluna que vc que editar
+            valor (str): O valor que irá para a celular
+        """
+        col_index = self.colunas.get(nome_coluna)
+        if col_index is None:
+            raise ValueError(f'Coluna {nome_coluna} não está definida em {self.colunas}')
+        
+        # for row_idx, row in enumerate(self.sheet)
 
         
 
@@ -99,5 +110,5 @@ if __name__ == '__main__':
         creds_json_path='src/infrastructure/creds/service-account.json',
         spreadsheet_name='os_aberta',
     )
-    os_list = repo.get_all_os()
-    print(os_list)
+    tarefa_list = repo.get_all()
+    print(tarefa_list)
