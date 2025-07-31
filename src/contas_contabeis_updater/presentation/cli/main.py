@@ -3,6 +3,7 @@ from sys import path
 
 path.append('A:\\dev\\python\\automacao-web-clean-arch')
 
+from src.contas_contabeis_updater.domain.usecases.abrir_listagem_contas_analiticas import AbrirListagemContasAnaliticasUseCase
 from src.tarefa_setor_updater.domain.entities.user import User
 from src.shared.domain.usecases.login_use_case import LoginUseCase
 from src.shared.infrastructure.repositories.playwright_webdriver import PlaywrightWebAutomation
@@ -32,6 +33,10 @@ def main():
         # 🔐 Etapa 1: Login
         login = LoginUseCase(web_automation, getenv('LOGIN_URL'), user)
         login()
+        
+        # Acessar listagem de contas contábeis analíticas
+        abrir_listagem = AbrirListagemContasAnaliticasUseCase(web_automation)
+        abrir_listagem()
         
         atualizar_status_contabil = AtualizarStatusContabilUseCase(repo, web_automation)
         atualizar_status_contabil()
