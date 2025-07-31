@@ -6,6 +6,7 @@ import time
 import os
 import sys
 
+from src.param_os_updater.domain.entities.param_os import ParamOS
 from src.tarefa_setor_updater.domain.entities.processo import Processo
 sys.path.append('d:\\jackson\\dev\\python\\automacao')
 
@@ -82,6 +83,22 @@ class TarefaRepositorySheets(TarefaRepository):
                 continue
             
         return processos
+    
+
+    def get_all_param_os(self) -> List[ParamOS]:
+        param_os_list: List[ParamOS] = []
+        
+        rows = self.ws.get_all_values()[1:]
+        
+        for row in rows:
+            param_os = ParamOS(
+                int(row[self.col_indices['id_wfl_param_os'] - 1]),
+                'DESC ALEATORIA',
+                Setor(10, 'DESC ALEATORIA')
+            )
+            param_os_list.append(param_os)
+            
+        return param_os_list
 
     def atualizar_coluna_por_tarefa_id(self, tarefa_id: int, nome_coluna: str, valor: str) -> None:
         """Atualiza o valor de uma celular especifica na linha da tabela informada pelo ID
