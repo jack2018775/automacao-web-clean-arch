@@ -1,4 +1,5 @@
 from src.contas_contabeis_updater.domain.repositories.conta_contabil_repository import ContaContabilRepository
+from src.contas_contabeis_updater.domain.usecases.filtrar_conta_contabil import FiltrarContaContabilUseCase
 from src.shared.domain.repositories.web_autimation import WebAutomation
 from src.contas_contabeis_updater.domain.entities.conta_contabil import ContaContabil
 
@@ -14,5 +15,8 @@ class AtualizarStatusContabilUseCase:
         for conta in contas:
             conta: ContaContabil
             print(f"[INFO] Verificando conta {conta.desc} ({conta.id})")
+            
+            filtrar_conta_contabil_analitica = FiltrarContaContabilUseCase(self.web_automation)
+            filtrar_conta_contabil_analitica(conta.id)
             ...
             
