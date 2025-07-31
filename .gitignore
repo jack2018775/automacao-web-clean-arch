@@ -7,8 +7,3 @@ venv/
 .env
 .idea/
 .vscode/
-
-
-creds/
-*/service-account.json
-
