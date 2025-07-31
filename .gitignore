@@ -8,6 +8,7 @@ venv/
 .idea/
 .vscode/
 
-*/creds/
+
+creds/
 */service-account.json
 
