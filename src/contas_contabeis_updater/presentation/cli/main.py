@@ -6,7 +6,7 @@ path.append('A:\\dev\\python\\automacao-web-clean-arch')
 from src.tarefa_setor_updater.domain.entities.user import User
 from src.shared.domain.usecases.login_use_case import LoginUseCase
 from src.shared.infrastructure.repositories.playwright_webdriver import PlaywrightWebAutomation
-from src.tarefa_setor_updater.infrastructure.repositories.tarefa_repository_sheets import TarefaRepositorySheets
+from src.contas_contabeis_updater.infrastructure.repositories.conta_contabil_repository_sheets import ContaContabilRepositorySheets
 from src.contas_contabeis_updater.domain.usecases.atualizar_status_conta import AtualizarStatusContabilUseCase
 
 
@@ -24,8 +24,8 @@ def main():
             getenv('EMAIL_3'),
             getenv('PASSWORD_3'),
         )
-        repo = TarefaRepositorySheets(
-            spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1rAXHK7e0nIZkdXNMNMEpF7RKcV_9-qg0nn0W35WgQso/edit?usp=sharing'
+        repo = ContaContabilRepositorySheets(
+            spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1eX3iOACNQ5a31YrNp0njuhw7wMcrckXp1uBDIM8sGAk/edit?usp=sharing'
         )
 
         
@@ -33,7 +33,8 @@ def main():
         login = LoginUseCase(web_automation, getenv('LOGIN_URL'), user)
         login()
         
-        #
+        atualizar_status_contabil = AtualizarStatusContabilUseCase(repo, web_automation)
+        atualizar_status_contabil()
         
         
 

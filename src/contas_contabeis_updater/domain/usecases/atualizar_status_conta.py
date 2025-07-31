@@ -13,6 +13,6 @@ class AtualizarStatusContabilUseCase:
         
         for conta in contas:
             conta: ContaContabil
-            print(f"[INFO] Verificando conta {conta.descricao} ({conta.id})")
+            print(f"[INFO] Verificando conta {conta.desc} ({conta.id})")
             ...
             

@@ -5,5 +5,5 @@ from typing import Optional
 class ContaContabil:
     id: int
     desc: str
+    deve_star: Optional[str] = None
     status: Optional[str] = None
-    deve_star: str
