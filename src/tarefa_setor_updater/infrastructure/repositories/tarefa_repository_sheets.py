@@ -7,6 +7,7 @@ import os
 import sys
 
 from src.param_os_updater.domain.entities.param_os import ParamOS
+from src.shared.infrastructure.repositories.google_sheets_repository import GoogleSheetsRepository
 from src.tarefa_setor_updater.domain.entities.processo import Processo
 sys.path.append('d:\\jackson\\dev\\python\\automacao')
 
@@ -18,7 +19,7 @@ from src.tarefa_setor_updater.domain.repositories.tarefa_repository import Taref
 
 
 
-class TarefaRepositorySheets(TarefaRepository):
+class TarefaRepositorySheets(GoogleSheetsRepository, TarefaRepository):
     """
     Implementação de OsRepository usando Google Sheets.
     Atualizações são refletidas em tempo real no navegador.
@@ -26,34 +27,11 @@ class TarefaRepositorySheets(TarefaRepository):
     """
     def __init__(
         self,
-        creds_json_path: str = 'src/infrastructure/creds/service-account.json',
-        spreadsheet_name: str = 'setor_processo',
-        worksheet_name: str = 'Página1',
         web_automation: Optional[WebAutomation] = None,
         spreadsheet_url: str = 'https://docs.google.com/spreadsheets/d/1rAXHK7e0nIZkdXNMNMEpF7RKcV_9-qg0nn0W35WgQso/edit?gid=0#gid=0'
     ):
+        super().__init__(spreadsheet_url=spreadsheet_url)
         self.web_automation = web_automation
-        # Autenticação via Service Account
-        scope = [
-            'https://spreadsheets.google.com/feeds',
-            'https://www.googleapis.com/auth/drive',
-        ]
-        
-        # Tem que atualizar as creds
-        creds = ServiceAccountCredentials.from_json_keyfile_name(
-            creds_json_path,
-            scope
-        )
-        client = gspread.authorize(creds)
-
-        # Abre a planilha e seleciona a worksheet
-        # sh = client.open(spreadsheet_name)
-        sh = client.open_by_url(spreadsheet_url)
-        self.ws = sh.worksheet(worksheet_name)
-
-        # Lê os headers da primeira linha e cria mapeamento coluna -> índice (1-based)
-        headers = self.ws.row_values(1)
-        self.col_indices = {header: idx + 1 for idx, header in enumerate(headers)}
         
     
     def get_all(self) -> List[Tarefa]:

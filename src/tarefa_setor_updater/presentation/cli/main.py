@@ -27,8 +27,6 @@ def main():
             getenv('PASSWORD_3'),
         )
         repo = TarefaRepositorySheets(
-            creds_json_path='src/shared/infrastructure/creds/service-account.json',
-            spreadsheet_name='os_aberta',
             spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1rAXHK7e0nIZkdXNMNMEpF7RKcV_9-qg0nn0W35WgQso/edit?usp=sharing'
         )
 
