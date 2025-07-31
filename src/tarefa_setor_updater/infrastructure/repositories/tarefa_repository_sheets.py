@@ -38,6 +38,8 @@ class TarefaRepositorySheets(TarefaRepository):
             'https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive',
         ]
+        
+        # Tem que atualizar as creds
         creds = ServiceAccountCredentials.from_json_keyfile_name(
             creds_json_path,
             scope
