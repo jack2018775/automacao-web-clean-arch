@@ -18,5 +18,16 @@ class AtualizarStatusContabilUseCase:
             
             filtrar_conta_contabil_analitica = FiltrarContaContabilUseCase(self.web_automation)
             filtrar_conta_contabil_analitica(conta.id)
-            ...
+                        
+            if conta.deve_star.lower() == 'ativo':
+                selector = 'form[name="planejamento_analitico"] input[id="ativoS"]'
+            elif conta.deve_star.lower() == 'inativo':
+                selector = 'form[name="planejamento_analitico"] input[id="ativoN"]'
+            else:
+                raise ValueError("Status inválido. Use 'Ativo' ou 'Inativo'.")
             
+            # 1️⃣ Selecionar o status
+            self.web_automation.click(selector)
+
+            # 2️⃣ Confirmar a alteração no formulário
+            self.web_automation.click('form[name="planejamento_analitico"] button[title="Alt+S"]')
